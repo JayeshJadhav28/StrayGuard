@@ -1,0 +1,20 @@
+{
+  "name": "strayguard-web",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "db:setup": "bash scripts/db_setup.sh",
+    "db:seed": "tsx scripts/seed_demo_zones.ts"
+  },
+  "devDependencies": {
+    "turbo": "^1.13.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

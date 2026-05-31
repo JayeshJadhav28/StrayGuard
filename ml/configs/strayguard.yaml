@@ -1,0 +1,6 @@
+path: datasets
+train: train
+val: val
+test: test
+names:
+  0: animal

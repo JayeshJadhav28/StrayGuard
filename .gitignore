@@ -1,0 +1,81 @@
+# Dependency installs
+node_modules/
+**/node_modules/
+.pnpm-store/
+.npm/
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+
+# Build and cache output
+dist/
+**/dist/
+build/
+**/build/
+coverage/
+**/coverage/
+.next/
+**/.next/
+out/
+**/out/
+.turbo/
+
+# Documentation tree not tracked in Git
+docs/
+
+# Environment files
+.env
+.env.*
+!.env.example
+*.local
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+*.log
+*.swp
+*.swo
+
+# Python and ML artifacts
+__pycache__/
+*.py[cod]
+*.pyd
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+htmlcov/
+ml/datasets/
+
+# Flutter / Dart artifacts
+.dart_tool/
+**/.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub/
+.pub-cache/
+**/doc/api/
+**/ios/Flutter/ephemeral/
+**/macos/Flutter/ephemeral/
+**/linux/flutter/ephemeral/
+**/windows/flutter/ephemeral/
+**/android/.gradle/
+**/android/local.properties
+**/android/key.properties
+**/android/captures/
+**/ios/Pods/
+**/DerivedData/
+**/GeneratedPluginRegistrant.*
+
+# PlatformIO artifacts
+**/.pio/
+
+# Mobile export artifacts
+app.*.symbols
+app.*.map.json

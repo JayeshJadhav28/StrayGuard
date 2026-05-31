@@ -1,0 +1,74 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+    provider   = "postgresql"
+    url        = env("DATABASE_URL")
+    extensions = [postgis(schema: "public")]
+}
+
+model Device {
+    id         Int         @id @default(autoincrement())
+    deviceHash String      @unique @map("device_hash") @db.VarChar(64)
+    firstSeen  DateTime    @default(now()) @map("first_seen")
+    lastSeen   DateTime?   @map("last_seen")
+    appVersion String?     @map("app_version") @db.VarChar(16)
+    eventCount BigInt      @default(0) @map("event_count")
+    detections Detection[]
+
+    @@map("devices")
+}
+
+model Detection {
+    id          BigInt                                @id @default(autoincrement())
+    deviceId    Int                                   @map("device_id")
+    device      Device                                @relation(fields: [deviceId], references: [id])
+    detectedAt  DateTime                              @map("detected_at")
+    receivedAt  DateTime                              @default(now()) @map("received_at")
+    lat         Float
+    lon         Float
+    geom        Unsupported("geometry(Point, 4326)")?
+    speedKmph   Float?                                @map("speed_kmph")
+    headingDeg  Float?                                @map("heading_deg")
+    animalClass String                                @map("animal_class") @db.VarChar(32)
+    confidence  Float
+    appVersion  String?                               @map("app_version") @db.VarChar(16)
+    bboxNorm    Float[]                               @map("bbox_norm")
+
+    @@unique([deviceId, detectedAt])
+    @@index([detectedAt])
+    @@index([animalClass])
+    @@map("detections")
+}
+
+model DangerZone {
+    id                   Int                                     @id @default(autoincrement())
+    zoneCode             String                                  @unique @map("zone_code") @db.VarChar(32)
+    segmentLabel         String?                                 @map("segment_label") @db.VarChar(128)
+    polygon              Unsupported("geometry(Polygon, 4326)")?
+    riskLevel            String                                  @map("risk_level") @db.VarChar(16)
+    riskScore            Float                                   @map("risk_score")
+    recommendedSpeedKmph Int                                     @map("recommended_speed_kmph")
+    activeFrom           String?                                 @map("active_from") @db.VarChar(5)
+    activeTo             String?                                 @map("active_to") @db.VarChar(5)
+    dominantAnimal       String?                                 @map("dominant_animal") @db.VarChar(32)
+    detectionCount30d    Int                                     @default(0) @map("detection_count_30d")
+    freeFlowSpeed        Int                                     @default(60) @map("free_flow_speed")
+    speedOverride        Int?                                    @map("speed_override")
+    updatedAt            DateTime?                               @map("updated_at")
+    isActive             Boolean                                 @default(true) @map("is_active")
+
+    @@map("danger_zones")
+}
+
+model AdminUser {
+    id           Int      @id @default(autoincrement())
+    email        String   @unique @db.VarChar(128)
+    passwordHash String   @map("password_hash")
+    role         String   @default("agency") @db.VarChar(16)
+    createdAt    DateTime @default(now()) @map("created_at")
+
+    @@map("admin_users")
+}
