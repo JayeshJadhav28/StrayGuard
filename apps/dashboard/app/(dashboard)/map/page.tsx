@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import {
 	MapPinned,
@@ -12,11 +13,18 @@ import {
 	Clock,
 	TrendingUp,
 } from 'lucide-react';
-import { DashboardMap } from '@/components/map/DashboardMap';
 import { LayerPanel } from '@/components/map/LayerPanel';
 import { LegendPanel } from '@/components/map/LegendPanel';
 import { MapControls } from '@/components/map/MapControls';
 import { ZoneInfoPanel } from '@/components/map/ZoneInfoPanel';
+
+const DashboardMap = dynamic(
+	() => import('@/components/map/DashboardMap').then((mod) => mod.DashboardMap),
+	{
+		ssr: false,
+		loading: () => <div className="flex h-full items-center justify-center rounded-2xl bg-slate-100 text-sm text-slate-500">Loading map...</div>,
+	},
+);
 
 export default function MapPage() {
 	const [selectedZone, setSelectedZone] = useState<any>(null);
