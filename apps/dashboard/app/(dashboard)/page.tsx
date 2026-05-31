@@ -1,1 +1,5 @@
-export { default } from './dashboard/page';
+import DashboardHomePage from './dashboard/page';
+
+export default function DashboardRootPage() {
+	return <DashboardHomePage />;
+}
